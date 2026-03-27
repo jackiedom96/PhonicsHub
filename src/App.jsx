@@ -7,9 +7,11 @@ import {
   Routes,
   useLocation,
 } from 'react-router-dom'
+import { AppContentProvider } from './context/AppContentContext.jsx'
+import { AdminEditorPanel } from './components/AdminEditorPanel.jsx'
+import { AmbientMusicPanel } from './components/AmbientMusicPanel.jsx'
 import { BottomNav } from './components/BottomNav.jsx'
 import { PortalPage } from './components/PortalPage.jsx'
-import { portals } from './data/content.js'
 import { HomePage } from './pages/HomePage.jsx'
 import { SearchPage } from './pages/SearchPage.jsx'
 
@@ -32,25 +34,43 @@ function AppShell() {
       <main className="app-shell__content">
         <Outlet />
       </main>
+      <AmbientMusicPanel />
       <BottomNav />
+    </div>
+  )
+}
+
+function EditorPage() {
+  return (
+    <div className="page">
+      <AdminEditorPanel />
     </div>
   )
 }
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<AppShell />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/teachers" element={<PortalPage portal={portals.teachers} />} />
-          <Route path="/mentors" element={<PortalPage portal={portals.mentors} />} />
-          <Route path="/admin" element={<PortalPage portal={portals.admin} />} />
-          <Route path="*" element={<Navigate replace to="/" />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <AppContentProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppShell />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route
+              path="/instructional-support"
+              element={<PortalPage portalId="instructionalSupport" />}
+            />
+            <Route
+              path="/evaluation-support"
+              element={<PortalPage portalId="evaluationSupport" />}
+            />
+            <Route path="/feedback-form" element={<PortalPage portalId="feedbackForm" />} />
+            <Route path="/editor" element={<EditorPage />} />
+            <Route path="*" element={<Navigate replace to="/" />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AppContentProvider>
   )
 }
 
