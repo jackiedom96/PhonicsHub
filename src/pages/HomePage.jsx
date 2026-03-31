@@ -9,6 +9,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { InlineEditableText } from '../components/InlineEditableText.jsx'
 import { useAppContent } from '../hooks/useAppContent.js'
 
 const iconMap = {
@@ -24,7 +25,15 @@ const accentClass = {
 }
 
 export function HomePage() {
-  const { branding, homeCards } = useAppContent()
+  const {
+    branding,
+    homeCards,
+    isInlineEditing,
+    updateBrandingField,
+    updateHomeCardField,
+  } = useAppContent()
+  const [topWord, ...restWords] = branding.appName.trim().split(/\s+/)
+  const bottomWord = restWords.join(' ')
 
   return (
     <div className="page home-page">
@@ -35,12 +44,45 @@ export function HomePage() {
               <Sparkles aria-hidden="true" size={16} strokeWidth={2} />
               Professional Oasis
             </span>
-            <div className="home-wordmark" aria-label={branding.appName} role="heading">
-              <span className="home-wordmark__top">Phonics</span>
-              <span className="home-wordmark__bottom">Hub</span>
-            </div>
-            <p className="subhead">{branding.tagline}</p>
-            <p className="subhead route-blurb">{branding.mission}</p>
+            <img
+              alt="Phonics Hub logo"
+              className="home-hero__brandmark"
+              src="/branding/phonics-hub-mark.svg"
+            />
+            {isInlineEditing ? (
+              <div className="home-wordmark home-wordmark--editing" aria-label={branding.appName} role="heading">
+                <label className="inline-editable__control">
+                  <span className="sr-only">App name</span>
+                  <input
+                    className="inline-editable__field inline-editable__field--wordmark"
+                    onChange={(event) => updateBrandingField('appName', event.target.value)}
+                    type="text"
+                    value={branding.appName}
+                  />
+                </label>
+              </div>
+            ) : (
+              <div className="home-wordmark" aria-label={branding.appName} role="heading">
+                <span className="home-wordmark__top">{topWord || 'Phonics'}</span>
+                <span className="home-wordmark__bottom">{bottomWord || 'Hub'}</span>
+              </div>
+            )}
+            <InlineEditableText
+              as="p"
+              className="subhead"
+              label="Homepage tagline"
+              onChange={(value) => updateBrandingField('tagline', value)}
+              value={branding.tagline}
+            />
+            <InlineEditableText
+              as="p"
+              className="subhead route-blurb"
+              label="Homepage mission"
+              multiline
+              onChange={(value) => updateBrandingField('mission', value)}
+              rows={3}
+              value={branding.mission}
+            />
           </div>
           <div className="home-hero__intro-strip">
             <article className="home-hero__intro-card">
@@ -84,8 +126,20 @@ export function HomePage() {
         </div>
 
         <div className="home-hero__aside">
-          <div className="logo-panel">
-            <img alt="DLEngage logo" src={branding.logoSrc} />
+          <div
+            className="logo-panel"
+            style={{
+              transform: `translateY(${branding.logoPanelOffsetY ?? -24}px)`,
+            }}
+          >
+            <img
+              alt="DLEngage logo"
+              src={branding.logoSrc}
+              style={{
+                transform: `translateY(${branding.logoOffsetY ?? 0}px)`,
+                width: `min(100%, ${branding.logoWidth ?? 304}px)`,
+              }}
+            />
             <div className="logo-panel__divider" aria-hidden="true" />
             <p className="logo-panel__credit">
               Presented by <strong>DLE Engage</strong>
@@ -146,37 +200,79 @@ export function HomePage() {
         {homeCards.map((card) => {
           const Icon = iconMap[card.icon] ?? ChartColumnIncreasing
 
-          return (
-            <Link
-              key={card.id}
-              className={`role-card surface-card${
-                card.accent ? ` role-card--${card.accent}` : ''
-              }`}
-              to={card.path}
-            >
-              <div className="role-card__header">
-                <div className={`card-icon ${accentClass[card.accent]}`} aria-hidden="true">
-                  <Icon size={24} strokeWidth={2} />
-                </div>
-                <span className={`pill ${card.accent === 'orange' ? 'pill--accent' : card.accent === 'green' ? 'pill--green' : 'pill--teal'}`}>
-                  {card.title === 'Feedback Form' ? 'Most interactive' : 'Shared workspace'}
-                </span>
-              </div>
-              <h3>{card.title}</h3>
-              <p>{card.summary}</p>
-              <div className="viewer-pill-row">
-                {card.bullets.map((bullet) => (
-                  <span key={bullet} className="tag">
-                    {bullet}
+          return isInlineEditing ? (
+              <article
+                key={card.id}
+                className={`role-card surface-card role-card--editing${
+                  card.accent ? ` role-card--${card.accent}` : ''
+                }`}
+              >
+                <div className="role-card__header">
+                  <div className={`card-icon ${accentClass[card.accent]}`} aria-hidden="true">
+                    <Icon size={24} strokeWidth={2} />
+                  </div>
+                  <span className={`pill ${card.accent === 'orange' ? 'pill--accent' : card.accent === 'green' ? 'pill--green' : 'pill--teal'}`}>
+                    {card.title === 'Feedback Form' ? 'Most interactive' : 'Shared workspace'}
                   </span>
-                ))}
-              </div>
-              <span className="role-card__footer">
-                <span className="text-link">Open workspace</span>
-                <ArrowRight aria-hidden="true" size={16} strokeWidth={2} />
-              </span>
-            </Link>
-          )
+                </div>
+                <InlineEditableText
+                  as="h3"
+                  className=""
+                  label={`${card.title} card title`}
+                  onChange={(value) => updateHomeCardField(card.id, 'title', value)}
+                  value={card.title}
+                />
+                <InlineEditableText
+                  as="p"
+                  className=""
+                  label={`${card.title} card summary`}
+                  multiline
+                  onChange={(value) => updateHomeCardField(card.id, 'summary', value)}
+                  rows={3}
+                  value={card.summary}
+                />
+                <div className="viewer-pill-row">
+                  {card.bullets.map((bullet) => (
+                    <span key={bullet} className="tag">
+                      {bullet}
+                    </span>
+                  ))}
+                </div>
+                <span className="role-card__footer role-card__footer--editing">
+                  <span className="text-link">Editing card text</span>
+                </span>
+              </article>
+            ) : (
+              <Link
+                key={card.id}
+                className={`role-card surface-card${
+                  card.accent ? ` role-card--${card.accent}` : ''
+                }`}
+                to={card.path}
+              >
+                <div className="role-card__header">
+                  <div className={`card-icon ${accentClass[card.accent]}`} aria-hidden="true">
+                    <Icon size={24} strokeWidth={2} />
+                  </div>
+                  <span className={`pill ${card.accent === 'orange' ? 'pill--accent' : card.accent === 'green' ? 'pill--green' : 'pill--teal'}`}>
+                    {card.title === 'Feedback Form' ? 'Most interactive' : 'Shared workspace'}
+                  </span>
+                </div>
+                <h3>{card.title}</h3>
+                <p>{card.summary}</p>
+                <div className="viewer-pill-row">
+                  {card.bullets.map((bullet) => (
+                    <span key={bullet} className="tag">
+                      {bullet}
+                    </span>
+                  ))}
+                </div>
+                <span className="role-card__footer">
+                  <span className="text-link">Open workspace</span>
+                  <ArrowRight aria-hidden="true" size={16} strokeWidth={2} />
+                </span>
+              </Link>
+            )
         })}
       </section>
     </div>

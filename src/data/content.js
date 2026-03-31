@@ -23,6 +23,9 @@ const createResource = ({
 export const branding = {
   appName: 'Phonics Hub',
   logoSrc: '/branding/logo.png',
+  logoOffsetY: 0,
+  logoPanelOffsetY: -24,
+  logoWidth: 304,
   tagline: 'Empowering Roslyn Literacy: Closing the 38% Gap.',
   mission:
     'A professional oasis where teachers, mentors, and administration can open shared instructional and evaluation supports in one place.',
@@ -34,7 +37,7 @@ export const homeCards = [
     title: 'Evaluation Support',
     icon: 'evaluation',
     path: '/evaluation-support',
-    accent: 'teal',
+    accent: 'orange',
     summary:
       'A shared evaluation portal for teachers, mentors, and administration with observation supports, job aids, and walkthrough materials.',
     bullets: ['Teachers', 'Mentors', 'Administration'],
@@ -44,7 +47,7 @@ export const homeCards = [
     title: 'Instructional Support',
     icon: 'instructional',
     path: '/instructional-support',
-    accent: 'orange',
+    accent: 'teal',
     summary:
       'A shared instructional portal for teachers, mentors, and administration with Canva-based coaching tools and classroom resources.',
     bullets: ['Teachers', 'Mentors', 'Administration'],
@@ -76,38 +79,71 @@ export const portals = {
         id: 'evaluation-materials',
         label: 'Evaluation Support',
         type: 'resource-list',
-        callout: 'Shared evaluation resources',
+        callout: 'Observation and log sections',
         description:
-          'A single shared space for evaluation support materials that can be updated with Canva links, PDFs, and Microsoft Form embeds.',
+          'A single evaluation support space with grouped sections for observation checklists and observation logs.',
         resources: [
           createResource({
-            id: 'shared-evaluation-job-aid',
-            title: 'Evaluation Support Job Aid',
+            id: 'shared-evaluation-checklist',
+            title: 'UFLI Summative Observation Checklist',
             audience: 'Teachers, Mentors, Administration',
             category: 'Evaluation Support',
+            groupLabel: 'UFLI Summative Observation Checklist',
             summary:
-              'A shared evaluation support resource placeholder for your Canva-based materials, observation guidance, and reference documents.',
-            type: 'pdf',
-            keywords: ['evaluation', 'job aid', 'canva', 'shared support'],
+              'Use this section for the UFLI summative observation checklist.',
+            type: 'link',
+            targetUrl:
+              'https://www.canva.com/design/DAHEZxojatw/256iqWJhgkUGZgyebyrsQA/edit?utm_content=DAHEZxojatw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
+            keywords: ['checklist', 'observation', 'evaluation', 'summative', 'ufli'],
             previewPoints: [
-              'Shared evaluation support for all stakeholders',
-              'Ready for Canva links or exported PDFs',
-              'Can be updated from the in-app editor',
+              'Summative observation checklist section',
+              'Linked to your Canva design',
+              'Supports leadership and coaching conversations',
             ],
           }),
           createResource({
-            id: 'shared-evaluation-checklist',
-            title: 'Evaluation Observation Checklist',
+            id: 'evaluation-observation-notes-checklist',
+            title: 'UFLI Fidelity Observation Log: Day 1 and 2',
             audience: 'Teachers, Mentors, Administration',
             category: 'Evaluation Support',
+            groupLabel: 'UFLI Observation Notes Checklist',
             summary:
-              'A shared checklist and observation support placeholder for walkthroughs, look-fors, and reference documents.',
-            type: 'pdf',
-            keywords: ['checklist', 'observation', 'evaluation', 'shared'],
+              'Use this section for the UFLI fidelity observation log for Day 1 and Day 2.',
+            type: 'link',
+            targetUrl:
+              'https://www.canva.com/design/DAHFSHoi4zo/YU1IViFHIEty4FIYXbaBkw/edit?utm_content=DAHFSHoi4zo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
+            keywords: ['checklist', 'observation notes', 'evaluation', 'ufli'],
             previewPoints: [
-              'Observation-ready evaluation reference',
-              'Supports leadership and coaching conversations',
-              'Can be replaced with final Canva-generated assets',
+              'Observation notes checklist section',
+              'Linked to your Canva design',
+              'Supports observation documentation',
+            ],
+          }),
+        ],
+      },
+      {
+        id: 'mentor-evaluation-materials',
+        label: 'Mentors',
+        type: 'resource-list',
+        callout: 'Mentor-only section',
+        description:
+          'A mentor-only evaluation space for mentor-facing observation tools, coaching notes, and support materials.',
+        resources: [
+          createResource({
+            id: 'mentor-evaluation-placeholder',
+            title: 'Mentor Evaluation Support',
+            audience: 'Mentors',
+            category: 'Mentor Evaluation',
+            summary:
+              'Use this section for mentor-only evaluation resources. Add a Canva or form link here when you are ready.',
+            type: 'link',
+            targetUrl:
+              'https://www.canva.com/design/DAHEszUCQ_w/NUvP2vak3JbYo4geC9syPA/edit?utm_content=DAHEszUCQ_w&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
+            keywords: ['mentor', 'evaluation', 'coaching', 'support'],
+            previewPoints: [
+              'Mentor-only evaluation section',
+              'Linked to your Canva design',
+              'Supports mentor coaching and observation follow-up',
             ],
           }),
         ],
@@ -128,38 +164,141 @@ export const portals = {
         id: 'instructional-materials',
         label: 'Instructional Support',
         type: 'resource-list',
-        callout: 'Shared instructional resources',
+        callout: 'Daily Guide',
         description:
-          'A single shared space for instructional support materials that can be updated with Canva links, PDFs, and visual document resources.',
+          'A single instructional support space with daily guide sections for materials, fidelity, and reference supports.',
         resources: [
           createResource({
-            id: 'shared-instructional-toolkit',
-            title: 'Instructional Support Toolkit',
-            audience: 'Teachers, Mentors, Administration',
-            category: 'Instructional Support',
+            id: 'daily-guide-day-1-materials-check',
+            title: 'Instructional Materials Check (Day 1)',
+            audience: 'Teachers',
+            category: 'Daily Guide Day 1',
+            groupLabel: 'Materials Check',
+            groupPrompt: 'Do I have my tools?',
             summary:
-              'A shared instructional support toolkit placeholder for Canva-based resources, anchor materials, and coaching supports.',
-            type: 'pdf',
-            keywords: ['instructional', 'toolkit', 'canva', 'shared support'],
+              'Use this section for the instructional materials check. Add your Canva link here for teachers to quickly confirm their Day 1 materials.',
+            type: 'link',
+            targetUrl:
+              'https://www.canva.com/design/DAHEn2X8Qig/TATL7KzmALauZa0UvU0GwQ/edit?utm_content=DAHEn2X8Qig&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
+            keywords: ['instructional support', 'daily guide', 'day 1', 'materials check', 'canva'],
             previewPoints: [
-              'Shared instructional support for all stakeholders',
-              'Ready for Canva links or exported PDFs',
-              'Can be updated from the in-app editor',
+              'Day 1 materials check section',
+              'Linked to your Canva design',
+              'Helps teachers confirm tools before instruction',
             ],
           }),
           createResource({
-            id: 'shared-instructional-reference',
-            title: 'Instructional Reference Materials',
-            audience: 'Teachers, Mentors, Administration',
-            category: 'Instructional Support',
+            id: 'daily-guide-day-2-materials-check',
+            title: 'Instructional Materials Check (Day 2)',
+            audience: 'Teachers',
+            category: 'Daily Guide Day 2',
+            groupLabel: 'Materials Check',
+            groupPrompt: 'Do I have my tools?',
             summary:
-              'A shared placeholder for instructional references, scaffolds, word lists, and other classroom-facing supports.',
-            type: 'pdf',
-            keywords: ['instructional', 'reference', 'scaffolds', 'word lists'],
+              'Use this section for the instructional materials check. Add your Canva link here for teachers to quickly confirm their Day 2 materials.',
+            type: 'link',
+            targetUrl:
+              'https://www.canva.com/design/DAHEsUMkZyw/fBtpKjGhgO0X2MrRLwcmqQ/edit?utm_content=DAHEsUMkZyw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
+            keywords: ['instructional support', 'daily guide', 'day 2', 'materials check', 'canva'],
             previewPoints: [
-              'Flexible home for shared instructional documents',
-              'Supports classroom, coaching, and leadership use',
-              'Designed for easy Canva content replacement',
+              'Day 2 materials check section',
+              'Linked to your Canva design',
+              'Helps teachers confirm tools before instruction',
+            ],
+          }),
+          createResource({
+            id: 'daily-guide-day-1-fidelity-checklist',
+            title: 'UFLI Fidelity Checklist Day 1',
+            audience: 'Teachers',
+            category: 'Daily Guide Day 1',
+            groupLabel: 'UFLI Fidelity Checklist',
+            groupPrompt: 'Am I following the lesson steps with fidelity?',
+            summary:
+              'Use this section for the Day 1 UFLI fidelity checklist. Add your Canva link here so teachers can quickly check alignment to the lesson.',
+            type: 'link',
+            targetUrl:
+              'https://www.canva.com/design/DAHElpQVjoM/x7yqENsNCqqqxJD51vu8Wg/edit?utm_content=DAHElpQVjoM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
+            keywords: ['instructional support', 'daily guide', 'day 1', 'ufli', 'fidelity checklist', 'canva'],
+            previewPoints: [
+              'Day 1 fidelity checklist section',
+              'Linked to your Canva design',
+              'Supports lesson fidelity and step-by-step implementation',
+            ],
+          }),
+          createResource({
+            id: 'daily-guide-day-2-fidelity-checklist',
+            title: 'UFLI Fidelity Checklist Day 2',
+            audience: 'Teachers',
+            category: 'Daily Guide Day 2',
+            groupLabel: 'UFLI Fidelity Checklist',
+            groupPrompt: 'Am I following the lesson steps with fidelity?',
+            summary:
+              'Use this section for the Day 2 UFLI fidelity checklist. Add your Canva link here so teachers can quickly check alignment to the lesson.',
+            type: 'link',
+            targetUrl:
+              'https://www.canva.com/design/DAHEocMNPjw/lExaCClFLqhoEaNlcXEp9g/edit?utm_content=DAHEocMNPjw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
+            keywords: ['instructional support', 'daily guide', 'day 2', 'ufli', 'fidelity checklist', 'canva'],
+            previewPoints: [
+              'Day 2 fidelity checklist section',
+              'Linked to your Canva design',
+              'Supports lesson fidelity and step-by-step implementation',
+            ],
+          }),
+          createResource({
+            id: 'daily-guide-day-1-reference-toolkit',
+            title: 'Response Methods',
+            audience: 'Teachers',
+            category: 'Daily Guide Day 1',
+            groupLabel: 'Reference Toolkit',
+            groupPrompt: 'How do I handle a specific step in the UFLI?',
+            summary:
+              'Use this section for response methods that support specific UFLI steps during Day 1 instruction.',
+            type: 'link',
+            targetUrl:
+              'https://www.canva.com/design/DAHEcW_e2HE/uOekkUXoN3vbA-zkdv9bcw/edit?utm_content=DAHEcW_e2HE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
+            keywords: ['instructional support', 'daily guide', 'day 1', 'reference toolkit', 'response methods'],
+            previewPoints: [
+              'Response methods live here',
+              'Linked to your Canva design',
+              'Supports step-specific instructional moves',
+            ],
+          }),
+          createResource({
+            id: 'daily-guide-day-1-high-frequency-words',
+            title: 'High-Frequency Words Routine ❤️',
+            audience: 'Teachers',
+            category: 'Daily Guide Day 1',
+            groupLabel: 'Reference Toolkit',
+            groupPrompt: 'How do I handle a specific step in the UFLI?',
+            summary:
+              'Use this section for high-frequency word references that support Day 1 instruction.',
+            type: 'link',
+            targetUrl:
+              'https://www.canva.com/design/DAHEZgXCH28/KIKGkDI8kRj9IkWRCHIrVw/edit?utm_content=DAHEZgXCH28&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
+            keywords: ['instructional support', 'daily guide', 'day 1', 'reference toolkit', 'high-frequency words'],
+            previewPoints: [
+              'High-frequency word references live here',
+              'Linked to your Canva design',
+              'Supports step-specific instructional moves',
+            ],
+          }),
+          createResource({
+            id: 'daily-guide-day-1-word-chain-templates',
+            title: 'Templates for Word Chains',
+            audience: 'Teachers',
+            category: 'Daily Guide Day 1',
+            groupLabel: 'Reference Toolkit',
+            groupPrompt: 'How do I handle a specific step in the UFLI?',
+            summary:
+              'Use this section for word-chain templates that support specific UFLI steps during Day 1 instruction.',
+            type: 'link',
+            targetUrl:
+              'https://www.canva.com/design/DAHEZrR7Eh4/xn0ZCUlVuRRxV-2toAu_Tw/edit?utm_content=DAHEZrR7Eh4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
+            keywords: ['instructional support', 'daily guide', 'day 1', 'reference toolkit', 'word chains', 'templates'],
+            previewPoints: [
+              'Word-chain templates live here',
+              'Linked to your Canva design',
+              'Supports step-specific instructional moves',
             ],
           }),
         ],
@@ -175,6 +314,23 @@ export const portals = {
     description:
       'A shared feedback form portal for teachers, mentors, and administration. This is where your form links will be embedded by stakeholder section.',
     highlights: [],
+    guidanceResource: createResource({
+      id: 'feedback-guidance-multi-source',
+      title: 'Multi-Source Feedback System',
+      audience: 'Teachers, Mentors, Administration',
+      category: 'Feedback Guidance',
+      summary:
+        'Use this guidance resource before opening the stakeholder forms so everyone is aligned to the same multi-source feedback process.',
+      type: 'link',
+      targetUrl:
+        'https://www.canva.com/design/DAHEZ0qxLXs/xZJmEybblBCBLZ-80KGruQ/edit?utm_content=DAHEZ0qxLXs&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton',
+      keywords: ['feedback', 'guidance', 'multi-source feedback', 'canva', 'shared support'],
+      previewPoints: [
+        'Guidance resource for all stakeholders',
+        'Linked to your Canva design',
+        'Use before opening the forms below',
+      ],
+    }),
     sections: [
       {
         id: 'teacher-feedback-form',
@@ -385,6 +541,8 @@ export const portals = {
             summary: 'Mentors reflecting on their own support and coaching work.',
             type: 'form',
             keywords: ['feedback', 'mentor', 'self-reflection', 'coaching'],
+            targetUrl:
+              'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=hfFpVS_SE06YUM5bGrzS6N3cle9jXfdDiub7_GFF_hxUQjdBME9OV1pQMlRQSTA0UlQwUlhKR0RVUi4u',
             fields: [
               'Name',
               'Role',
@@ -410,7 +568,7 @@ export const portals = {
         resources: [
           createResource({
             id: 'administration-feedback-form-teacher-snapshot',
-            title: 'Teacher Snapshot Form',
+            title: 'UFLI Feedback Form (Day 1)',
             audience: 'Administration',
             category: 'Teacher Snapshot',
             groupLabel: 'Teacher Snapshot',
@@ -418,6 +576,8 @@ export const portals = {
               'Use this section for administration feedback connected to teacher observations and classroom snapshots.',
             type: 'form',
             keywords: ['feedback', 'administration', 'teacher snapshot', 'observation'],
+            targetUrl:
+              'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=hfFpVS_SE06YUM5bGrzS6N3cle9jXfdDiub7_GFF_hxUQ0JWOEtGMFdRSTZIU1hKRllWUkEzTTlWVi4u',
             fields: [
               'Name',
               'Role',
@@ -432,6 +592,37 @@ export const portals = {
             ],
           }),
           createResource({
+            id: 'administration-feedback-form-teacher-snapshot-day-2',
+            title: 'UFLI Feedback Form (Day 2)',
+            audience: 'Administration',
+            category: 'Teacher Snapshot',
+            groupLabel: 'Teacher Snapshot',
+            summary:
+              'Use this section for administration feedback connected to teacher observations and classroom snapshots.',
+            type: 'form',
+            keywords: [
+              'feedback',
+              'administration',
+              'teacher snapshot',
+              'observation',
+              'day 2',
+            ],
+            targetUrl:
+              'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=hfFpVS_SE06YUM5bGrzS6N3cle9jXfdDiub7_GFF_hxUQ1VXWlI3V1c4REs0TFJEMzJYNEZWMkVWTy4u',
+            fields: [
+              'Name',
+              'Role',
+              'Specific Wins',
+              'Actionable Next Steps',
+            ],
+            ratings: ['Adherence', 'Pacing', 'Student Response'],
+            previewPoints: [
+              'Administration teacher snapshot section',
+              'Day 2 observation form',
+              'Can be updated from the in-app editor',
+            ],
+          }),
+          createResource({
             id: 'administration-feedback-form-mentor-snapshot',
             title: 'Mentor Snapshot Form',
             audience: 'Administration',
@@ -441,6 +632,8 @@ export const portals = {
               'Use this section for administration feedback connected to mentor support, coaching, and observation snapshots.',
             type: 'form',
             keywords: ['feedback', 'administration', 'mentor snapshot', 'coaching'],
+            targetUrl:
+              'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=hfFpVS_SE06YUM5bGrzS6N3cle9jXfdDiub7_GFF_hxUM1Y1RFY3NUxMUTNMTllQWktLS1FORzdGMS4u',
             fields: [
               'Name',
               'Role',
@@ -464,6 +657,8 @@ export const portals = {
               'Use this section for administration self-assessment and reflection after observations, walkthroughs, or support cycles.',
             type: 'form',
             keywords: ['feedback', 'administration', 'self-assessment', 'reflection'],
+            targetUrl:
+              'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=hfFpVS_SE06YUM5bGrzS6N3cle9jXfdDiub7_GFF_hxUMVFVTTVQRE9SRE9GTERCSFlSRzAzMzZRQi4u',
             fields: [
               'Name',
               'Role',

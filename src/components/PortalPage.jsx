@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { useSearchParams } from 'react-router-dom'
 import { useAppContent } from '../hooks/useAppContent.js'
+import { InlineEditableText } from './InlineEditableText.jsx'
 import { ResourceViewer } from './ResourceViewer.jsx'
 
 const iconMap = {
@@ -116,9 +117,10 @@ function SelectorCard({ accent, isActive, onClick, resource }) {
   )
 }
 
-function FeedbackLaunchCard({ accent, resource }) {
+function FeedbackLaunchCard({ accent, onUpdateResourceField, resource }) {
   const Icon = selectorIconMap[resource.type] ?? FileText
   const href = resource.resolvedUrl || resource.targetUrl || ''
+  const { isInlineEditing } = useAppContent()
 
   if (!href) {
     return (
@@ -130,9 +132,59 @@ function FeedbackLaunchCard({ accent, resource }) {
             </span>
           </div>
         </div>
-        <h3>{resource.title}</h3>
-        <p>{resource.summary}</p>
-        <p className="selector-card__helper">Add a form link in the editor to open it here.</p>
+        <InlineEditableText
+          as="h3"
+          label={`${resource.title} title`}
+          onChange={(value) => onUpdateResourceField(resource.id, 'title', value)}
+          value={resource.title}
+        />
+        <InlineEditableText
+          as="p"
+          label={`${resource.title} summary`}
+          multiline
+          onChange={(value) => onUpdateResourceField(resource.id, 'summary', value)}
+          rows={3}
+          value={resource.summary}
+        />
+        <p className="selector-card__helper">
+          {resource.type === 'form'
+            ? 'Add a form link in the editor to open it here.'
+            : 'Add a resource link in the editor to open it here.'}
+        </p>
+      </article>
+    )
+  }
+
+  if (isInlineEditing) {
+    return (
+      <article className={`selector-card selector-card--${accent} selector-card--editing`}>
+        <div className="selector-card__top">
+          <div className="selector-card__title-wrap">
+            <span className="selector-icon" aria-hidden="true">
+              <Icon size={20} strokeWidth={2} />
+            </span>
+          </div>
+          <ExternalLink aria-hidden="true" size={18} strokeWidth={2} />
+        </div>
+        <InlineEditableText
+          as="h3"
+          label={`${resource.title} title`}
+          onChange={(value) => onUpdateResourceField(resource.id, 'title', value)}
+          value={resource.title}
+        />
+        <InlineEditableText
+          as="p"
+          label={`${resource.title} summary`}
+          multiline
+          onChange={(value) => onUpdateResourceField(resource.id, 'summary', value)}
+          rows={3}
+          value={resource.summary}
+        />
+        <p className="selector-card__helper">
+          {resource.type === 'form'
+            ? 'Link stays attached while you edit the wording.'
+            : 'Resource link stays attached while you edit the wording.'}
+        </p>
       </article>
     )
   }
@@ -154,7 +206,52 @@ function FeedbackLaunchCard({ accent, resource }) {
       </div>
       <h3>{resource.title}</h3>
       <p>{resource.summary}</p>
-      <p className="selector-card__helper">Open Full Form</p>
+      <p className="selector-card__helper">
+        {resource.type === 'form' ? 'Open Full Form' : resource.linkLabel ?? 'Open Resource'}
+      </p>
+    </a>
+  )
+}
+
+function GuidanceLaunchCard({ accent, resource }) {
+  const Icon = selectorIconMap[resource.type] ?? FileText
+  const href = resource.resolvedUrl || resource.targetUrl || ''
+
+  if (!href) {
+    return (
+      <article className={`selector-card selector-card--${accent}`}>
+        <div className="selector-card__top">
+          <div className="selector-card__title-wrap">
+            <span className="selector-icon" aria-hidden="true">
+              <Icon size={20} strokeWidth={2} />
+            </span>
+          </div>
+        </div>
+        <h3>{resource.title}</h3>
+        <p>{resource.summary}</p>
+        <p className="selector-card__helper">Add a guidance link to open it here.</p>
+      </article>
+    )
+  }
+
+  return (
+    <a
+      className={`selector-card selector-card--${accent} selector-card--launch`}
+      href={href}
+      rel="noreferrer"
+      target="_blank"
+    >
+      <div className="selector-card__top">
+        <div className="selector-card__title-wrap">
+          <span className="selector-icon" aria-hidden="true">
+            <Icon size={20} strokeWidth={2} />
+          </span>
+        </div>
+        <ExternalLink aria-hidden="true" size={18} strokeWidth={2} />
+      </div>
+      <h3>{resource.title}</h3>
+      <p>{resource.summary}</p>
+      <p className="selector-card__helper">{resource.linkLabel ?? 'Open Guidance'}</p>
     </a>
   )
 }
@@ -170,12 +267,14 @@ function groupResources(resources) {
       const nextGroup = {
         label: groupLabel,
         prompt: resource.groupPrompt ?? '',
+        resourceIds: [],
         resources: [],
       }
       groupsByLabel.set(groupLabel, nextGroup)
       groups.push(nextGroup)
     }
 
+    groupsByLabel.get(groupLabel).resourceIds.push(resource.id)
     groupsByLabel.get(groupLabel).resources.push(resource)
   })
 
@@ -185,6 +284,14 @@ function groupResources(resources) {
 function getFeedbackGroupToneClass(label) {
   if (label === 'Peer Snapshot') {
     return 'peer'
+  }
+
+  if (label === 'Materials Check') {
+    return 'materials'
+  }
+
+  if (label === 'Multi-Source Feedback System') {
+    return 'multi-source'
   }
 
   if (label === 'Teacher Snapshot') {
@@ -199,8 +306,28 @@ function getFeedbackGroupToneClass(label) {
     return 'leadership'
   }
 
+  if (label === 'UFLI Fidelity Checklist') {
+    return 'fidelity'
+  }
+
+  if (label === 'UFLI Summative Observation Checklist') {
+    return 'summative'
+  }
+
   if (label === 'Admin Self-Assessment') {
     return 'admin-self'
+  }
+
+  if (label === 'UFLI Observation Notes Checklist') {
+    return 'notes'
+  }
+
+  if (label === 'Formative Observation') {
+    return 'formative'
+  }
+
+  if (label === 'Reference Toolkit') {
+    return 'reference'
   }
 
   if (label === 'Self-Reflection') {
@@ -212,6 +339,14 @@ function getFeedbackGroupToneClass(label) {
 
 function getFeedbackGroupIcon(label) {
   if (label === 'Peer Snapshot') {
+    return UsersRound
+  }
+
+  if (label === 'Materials Check') {
+    return ClipboardList
+  }
+
+  if (label === 'Multi-Source Feedback System') {
     return UsersRound
   }
 
@@ -227,8 +362,28 @@ function getFeedbackGroupIcon(label) {
     return ShieldCheck
   }
 
+  if (label === 'UFLI Fidelity Checklist') {
+    return FileText
+  }
+
+  if (label === 'UFLI Summative Observation Checklist') {
+    return ClipboardList
+  }
+
   if (label === 'Admin Self-Assessment') {
     return ClipboardList
+  }
+
+  if (label === 'UFLI Observation Notes Checklist') {
+    return FileSearch
+  }
+
+  if (label === 'Formative Observation') {
+    return ShieldCheck
+  }
+
+  if (label === 'Reference Toolkit') {
+    return Presentation
   }
 
   if (label === 'Self-Reflection') {
@@ -239,15 +394,14 @@ function getFeedbackGroupIcon(label) {
 }
 
 function getStakeholderToneClass(portalId, sectionId) {
-  if (portalId !== 'feedbackForm') {
-    return ''
-  }
-
   if (sectionId === 'teacher-feedback-form') {
     return 'teachers'
   }
 
-  if (sectionId === 'mentor-feedback-form') {
+  if (
+    sectionId === 'mentor-feedback-form' ||
+    (portalId === 'evaluationSupport' && sectionId === 'mentor-evaluation-materials')
+  ) {
     return 'mentors'
   }
 
@@ -265,44 +419,89 @@ function SectionSurface({
   activeResource,
   resources,
   onDayChange,
+  onUpdateResourceField,
+  onUpdateResourcesField,
   onResourceChange,
 }) {
-  if (portal.id === 'feedbackForm') {
+  if (
+    portal.id === 'feedbackForm' ||
+    (portal.id === 'instructionalSupport' &&
+      activeSection.id === 'instructional-materials' &&
+      resources.some((resource) => resource.groupLabel)) ||
+    (portal.id === 'evaluationSupport' &&
+      (activeSection.id === 'evaluation-materials' ||
+        activeSection.id === 'mentor-evaluation-materials') &&
+      resources.some((resource) => resource.groupLabel))
+  ) {
     const feedbackResources =
       activeSection.type === 'form' ? [activeSection.resource] : resources
+    const groupedListClass =
+      portal.id === 'evaluationSupport'
+        ? 'selector-list selector-list--feedback selector-list--evaluation'
+        : 'selector-list selector-list--feedback'
 
     return (
-      <div className="selector-list selector-list--feedback">
+      <div className={groupedListClass}>
         {groupResources(feedbackResources).map((group) => (
           <div
             key={group.label}
             className={`selector-group selector-group--feedback selector-group--${getFeedbackGroupToneClass(group.label)}`}
           >
-            {(() => {
-              const GroupIcon = getFeedbackGroupIcon(group.label)
+            <div className="selector-group__header">
+              {(() => {
+                const GroupIcon = getFeedbackGroupIcon(group.label)
 
-              return (
-                <span className="selector-group__badge" aria-hidden="true">
-                  <GroupIcon size={18} strokeWidth={2} />
-                </span>
-              )
-            })()}
-            <p className="selector-group__label">
-              <span>{group.label}</span>
-              {group.prompt ? (
-                <span className="selector-group__prompt">{group.prompt}</span>
-              ) : null}
-            </p>
+                return (
+                  <span className="selector-group__badge" aria-hidden="true">
+                    <GroupIcon size={18} strokeWidth={2} />
+                  </span>
+                )
+              })()}
+              <p className="selector-group__label">
+                <InlineEditableText
+                  as="span"
+                  className="selector-group__label-text"
+                  label={`${group.label} section label`}
+                  onChange={(value) => onUpdateResourcesField(group.resourceIds, 'groupLabel', value)}
+                  value={group.label}
+                />
+                {group.prompt ? (
+                  <InlineEditableText
+                    as="span"
+                    className="selector-group__prompt"
+                    label={`${group.label} section prompt`}
+                    onChange={(value) => onUpdateResourcesField(group.resourceIds, 'groupPrompt', value)}
+                    value={group.prompt}
+                  />
+                ) : null}
+              </p>
+            </div>
             <div className="selector-group__items">
               {group.resources.map((resource) => (
                 <FeedbackLaunchCard
                   key={resource.id}
                   accent={portal.accent}
+                  onUpdateResourceField={onUpdateResourceField}
                   resource={resource}
                 />
               ))}
             </div>
           </div>
+        ))}
+      </div>
+    )
+  }
+
+  if (portal.id === 'evaluationSupport' && activeSection.id === 'mentor-evaluation-materials') {
+    return (
+      <div className="selector-list selector-list--feedback">
+        {resources.map((resource) => (
+          <FeedbackLaunchCard
+            key={resource.id}
+            accent={portal.accent}
+            onUpdateResourceField={onUpdateResourceField}
+            resource={resource}
+          />
         ))}
       </div>
     )
@@ -383,7 +582,13 @@ function SectionSurface({
 }
 
 export function PortalPage({ portalId }) {
-  const { portals } = useAppContent()
+  const {
+    portals,
+    updatePortalField,
+    updateResourceField,
+    updateResourcesField,
+    updateSectionField,
+  } = useAppContent()
   const [searchParams, setSearchParams] = useSearchParams()
   const portal = portals[portalId]
 
@@ -420,14 +625,34 @@ export function PortalPage({ portalId }) {
     <div className="page portal-layout">
       <section
         className={`hero-card surface-card portal-hero${
-          portal.id === 'feedbackForm' ? ' portal-hero--feedback' : ''
+          portal.id === 'feedbackForm'
+            ? ' portal-hero--feedback'
+            : portal.id === 'instructionalSupport'
+              ? ' portal-hero--instructional'
+              : portal.id === 'evaluationSupport'
+                ? ' portal-hero--evaluation'
+              : ''
         }`}
       >
         <div className="portal-hero__top">
           <div>
             <span className="eyebrow">{portal.eyebrow}</span>
-            <h1 className="headline">{portal.title}</h1>
-            <p className="portal-hero__description">{portal.description}</p>
+            <InlineEditableText
+              as="h1"
+              className="headline"
+              label={`${portal.title} portal title`}
+              onChange={(value) => updatePortalField(portal.id, 'title', value)}
+              value={portal.title}
+            />
+            <InlineEditableText
+              as="p"
+              className="portal-hero__description"
+              label={`${portal.title} portal description`}
+              multiline
+              onChange={(value) => updatePortalField(portal.id, 'description', value)}
+              rows={3}
+              value={portal.description}
+            />
           </div>
           <div className="portal-hero__icon" aria-hidden="true">
             <PortalIcon size={32} strokeWidth={1.9} />
@@ -443,14 +668,34 @@ export function PortalPage({ portalId }) {
         </div>
       </section>
 
+      {portal.id === 'feedbackForm' && portal.guidanceResource ? (
+        <section className="guidance-shell surface-card">
+          <div className="guidance-shell__copy">
+            <span className="eyebrow">Guidance</span>
+            <h2 className="guidance-shell__title">Multi-Source Guidance</h2>
+            <p className="guidance-shell__description">
+              Start here before choosing a stakeholder section below.
+            </p>
+          </div>
+          <GuidanceLaunchCard accent={portal.accent} resource={portal.guidanceResource} />
+        </section>
+      ) : null}
+
       <section className="nav-shell surface-card">
-        <div className="section-nav" aria-label={`${portal.title} section navigation`}>
+        <div
+          className={`section-nav${
+            portal.id === 'evaluationSupport' ? ' section-nav--evaluation' : ''
+          }`}
+          aria-label={`${portal.title} section navigation`}
+        >
           {portal.sections.map((section) => (
             <button
               key={section.id}
               className={`section-nav__button${
                 getStakeholderToneClass(portal.id, section.id)
                   ? ` section-nav__button--${getStakeholderToneClass(portal.id, section.id)}`
+                  : portal.id === 'evaluationSupport' && section.id === 'mentor-evaluation-materials'
+                    ? ' section-nav__button--mentors'
                   : ''
               }${
                 section.id === portalState.activeSection.id ? ' is-active' : ''
@@ -472,11 +717,37 @@ export function PortalPage({ portalId }) {
         <div className="section-shell__header">
           <div className="section-shell__copy">
             <p className="section-shell__eyebrow">{portal.title}</p>
-            <h2 className="section-shell__title">{portalState.activeSection.label}</h2>
-            <p className="section-copy">{portalState.activeSection.description}</p>
+            <InlineEditableText
+              as="h2"
+              className="section-shell__title"
+              label={`${portalState.activeSection.label} section title`}
+              onChange={(value) =>
+                updateSectionField(portal.id, portalState.activeSection.id, 'label', value)
+              }
+              value={portalState.activeSection.label}
+            />
+            <InlineEditableText
+              as="p"
+              className="section-copy"
+              label={`${portalState.activeSection.label} section description`}
+              multiline
+              onChange={(value) =>
+                updateSectionField(portal.id, portalState.activeSection.id, 'description', value)
+              }
+              rows={3}
+              value={portalState.activeSection.description}
+            />
           </div>
           <div className="viewer-pill-row">
-            <span className="pill pill--teal">{portalState.activeSection.callout}</span>
+            <InlineEditableText
+              as="span"
+              className="pill pill--teal"
+              label={`${portalState.activeSection.label} section callout`}
+              onChange={(value) =>
+                updateSectionField(portal.id, portalState.activeSection.id, 'callout', value)
+              }
+              value={portalState.activeSection.callout}
+            />
             {portalState.activeSection.type === 'day-groups' ? (
               <span className="pill pill--accent">Day-based Job Aids</span>
             ) : null}
@@ -488,6 +759,8 @@ export function PortalPage({ portalId }) {
           activeResource={portalState.activeResource}
           activeSection={portalState.activeSection}
           onDayChange={handleDayChange}
+          onUpdateResourceField={updateResourceField}
+          onUpdateResourcesField={updateResourcesField}
           onResourceChange={handleResourceChange}
           portal={portal}
           resources={portalState.resources}

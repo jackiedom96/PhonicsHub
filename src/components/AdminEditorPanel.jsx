@@ -55,6 +55,20 @@ function TextField({ label, onChange, placeholder = '', value }) {
   )
 }
 
+function NumberField({ label, onChange, value }) {
+  return (
+    <label className="editor-field">
+      <span>{label}</span>
+      <input
+        className="editor-input"
+        onChange={(event) => onChange(Number(event.target.value))}
+        type="number"
+        value={value ?? 0}
+      />
+    </label>
+  )
+}
+
 function TextAreaField({ label, onChange, rows = 4, value }) {
   return (
     <label className="editor-field">
@@ -459,6 +473,21 @@ export function AdminEditorPanel() {
               label="App name"
               onChange={(value) => updateBrandingField('appName', value)}
               value={content.branding.appName}
+            />
+            <NumberField
+              label="DLE logo width (px)"
+              onChange={(value) => updateBrandingField('logoWidth', value)}
+              value={content.branding.logoWidth}
+            />
+            <NumberField
+              label="DLE box vertical position (px)"
+              onChange={(value) => updateBrandingField('logoPanelOffsetY', value)}
+              value={content.branding.logoPanelOffsetY}
+            />
+            <NumberField
+              label="DLE logo vertical position (px)"
+              onChange={(value) => updateBrandingField('logoOffsetY', value)}
+              value={content.branding.logoOffsetY}
             />
             <TextField
               label="Tagline"

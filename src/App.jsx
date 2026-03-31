@@ -9,8 +9,8 @@ import {
 } from 'react-router-dom'
 import { AppContentProvider } from './context/AppContentContext.jsx'
 import { AdminEditorPanel } from './components/AdminEditorPanel.jsx'
-import { AmbientMusicPanel } from './components/AmbientMusicPanel.jsx'
 import { BottomNav } from './components/BottomNav.jsx'
+import { InlineEditToggle } from './components/InlineEditToggle.jsx'
 import { PortalPage } from './components/PortalPage.jsx'
 import { HomePage } from './pages/HomePage.jsx'
 import { SearchPage } from './pages/SearchPage.jsx'
@@ -34,7 +34,7 @@ function AppShell() {
       <main className="app-shell__content">
         <Outlet />
       </main>
-      <AmbientMusicPanel />
+      <InlineEditToggle />
       <BottomNav />
     </div>
   )

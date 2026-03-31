@@ -1,4 +1,6 @@
 import { ExternalLink, Star } from 'lucide-react'
+import { useAppContent } from '../hooks/useAppContent.js'
+import { InlineEditableText } from './InlineEditableText.jsx'
 
 function PlaceholderDocument({ resource }) {
   return (
@@ -84,6 +86,8 @@ function EmbeddedContent({ resource }) {
 }
 
 export function ResourceViewer({ compact = false, onSelect, resource }) {
+  const { updateResourceField } = useAppContent()
+
   if (!resource) {
     return null
   }
@@ -94,8 +98,21 @@ export function ResourceViewer({ compact = false, onSelect, resource }) {
     <article className="viewer-card">
       <div className="viewer-card__header">
         <div className="viewer-card__header-copy">
-          <h3>{resource.title}</h3>
-          <p className="viewer-card__summary">{resource.summary}</p>
+          <InlineEditableText
+            as="h3"
+            label={`${resource.title} title`}
+            onChange={(value) => updateResourceField(resource.id, 'title', value)}
+            value={resource.title}
+          />
+          <InlineEditableText
+            as="p"
+            className="viewer-card__summary"
+            label={`${resource.title} summary`}
+            multiline
+            onChange={(value) => updateResourceField(resource.id, 'summary', value)}
+            rows={3}
+            value={resource.summary}
+          />
         </div>
 
         {compact && onSelect ? (
