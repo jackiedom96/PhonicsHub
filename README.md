@@ -52,9 +52,10 @@ The app now includes an in-app editor inside the Admin portal so content can be 
 
 Important persistence note:
 
-- Text and links are stored in browser local storage.
+- Text and link edits are session-only.
+- Refreshing the app reloads defaults from `src/data/content.js`.
 - Uploaded PDFs are stored in the browser with IndexedDB.
-- These edits are local to the browser/device unless you also add shareable URLs.
+- Uploaded PDFs remain local to the browser/device unless you also add shareable URLs.
 
 ## Content Model
 

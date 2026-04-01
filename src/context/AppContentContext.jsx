@@ -13,8 +13,6 @@ import {
 } from '../lib/pdfAssetStore.js'
 import { isEditorEnabled } from '../config/runtime.js'
 
-const STORAGE_KEY = 'phonics-hub-content-v6'
-
 const SELF_REFLECTION_FORM_URL =
   'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=hfFpVS_SE06YUM5bGrzS6N3cle9jXfdDiub7_GFF_hxUNDBBT1ZUOTg3VElZQ0xUSTUyRDNKRURETC4u'
 const MENTOR_PEER_SNAPSHOT_FORM_URL =
@@ -676,24 +674,8 @@ function mergeStoredContent(defaultContent, storedContent) {
   }
 }
 
-function loadStoredContent() {
-  const defaultContent = createInitialAppContent()
-
-  if (typeof window === 'undefined') {
-    return defaultContent
-  }
-
-  try {
-    const storedValue = window.localStorage.getItem(STORAGE_KEY)
-
-    if (!storedValue) {
-      return defaultContent
-    }
-
-    return mergeStoredContent(defaultContent, JSON.parse(storedValue))
-  } catch {
-    return defaultContent
-  }
+function loadInitialContent() {
+  return mergeStoredContent(createInitialAppContent(), null)
 }
 
 function hydrateResource(resource, pdfAssetUrls) {
@@ -842,7 +824,7 @@ function updateResourcesTree(currentContent, resourceIds, field, value) {
 }
 
 export function AppContentProvider({ children }) {
-  const [content, setContent] = useState(loadStoredContent)
+  const [content, setContent] = useState(loadInitialContent)
   const [isInlineEditing, setInlineEditingState] = useState(false)
   const [pdfAssetUrls, setPdfAssetUrls] = useState({})
   const pdfAssetUrlsRef = useRef({})
@@ -850,10 +832,6 @@ export function AppContentProvider({ children }) {
   useEffect(() => {
     pdfAssetUrlsRef.current = pdfAssetUrls
   }, [pdfAssetUrls])
-
-  useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(content))
-  }, [content])
 
   useEffect(() => {
     let isMounted = true
@@ -1006,7 +984,6 @@ export function AppContentProvider({ children }) {
     Object.values(pdfAssetUrlsRef.current).forEach((url) => URL.revokeObjectURL(url))
     setPdfAssetUrls({})
     setContent(createInitialAppContent())
-    window.localStorage.removeItem(STORAGE_KEY)
   }
 
   const setInlineEditing = (nextValue) => {
@@ -1030,7 +1007,7 @@ export function AppContentProvider({ children }) {
   const contextValue = {
     branding: hydratedContent.branding,
     buildNotes:
-      'Changes save automatically in this browser. Uploaded PDFs stay local to this device unless you also add a shareable URL.',
+      'Text and link edits apply only in this session. Refresh to reload defaults from content.js. Uploaded PDFs still stay local to this device unless you also add a shareable URL.',
     content: hydratedContent,
     isEditorEnabled,
     featuredSearches: buildFeaturedSearches(hydratedContent),
