@@ -25,6 +25,30 @@ const accentClass = {
   green: 'card-icon--green',
 }
 
+function HomeBrandPanel({ branding, className = 'logo-panel' }) {
+  return (
+    <div
+      className={className}
+      style={{
+        transform: `translateY(${branding.logoPanelOffsetY ?? -24}px)`,
+      }}
+    >
+      <img
+        alt="DLEngage logo"
+        src={branding.logoSrc}
+        style={{
+          transform: `translateY(${branding.logoOffsetY ?? 0}px)`,
+          width: `min(100%, ${branding.logoWidth ?? 304}px)`,
+        }}
+      />
+      <div className="logo-panel__divider" aria-hidden="true" />
+      <p className="logo-panel__credit">
+        Presented by <strong>DL Engage</strong>
+      </p>
+    </div>
+  )
+}
+
 export function HomePage() {
   const {
     branding,
@@ -39,6 +63,10 @@ export function HomePage() {
   return (
     <div className="page home-page">
       <section className="hero-card surface-card home-hero home-hero--enhanced">
+        <div className="home-hero__brand-corner">
+          <HomeBrandPanel branding={branding} />
+        </div>
+
         <div className="home-hero__content">
           <div className="home-hero__heading">
             <span className="eyebrow">
@@ -129,25 +157,7 @@ export function HomePage() {
         </div>
 
         <div className="home-hero__aside">
-          <div
-            className="logo-panel"
-            style={{
-              transform: `translateY(${branding.logoPanelOffsetY ?? -24}px)`,
-            }}
-          >
-            <img
-              alt="DLEngage logo"
-              src={branding.logoSrc}
-              style={{
-                transform: `translateY(${branding.logoOffsetY ?? 0}px)`,
-                width: `min(100%, ${branding.logoWidth ?? 304}px)`,
-              }}
-            />
-            <div className="logo-panel__divider" aria-hidden="true" />
-            <p className="logo-panel__credit">
-              Presented by <strong>DLE Engage</strong>
-            </p>
-          </div>
+          <HomeBrandPanel branding={branding} />
         </div>
       </section>
 

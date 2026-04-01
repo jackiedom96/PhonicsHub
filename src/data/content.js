@@ -69,7 +69,7 @@ export const portals = {
     id: 'evaluationSupport',
     title: 'Evaluation Support',
     path: '/evaluation-support',
-    accent: 'teal',
+    accent: 'orange',
     eyebrow: 'Shared Stakeholder Portal',
     description:
       'A shared evaluation support portal for teachers, mentors, and administration. This is where evaluation-facing Canva resources, job aids, and checklist materials will live.',
@@ -154,7 +154,7 @@ export const portals = {
     id: 'instructionalSupport',
     title: 'Instructional Support',
     path: '/instructional-support',
-    accent: 'orange',
+    accent: 'teal',
     eyebrow: 'Shared Stakeholder Portal',
     description:
       'A shared instructional support portal for teachers, mentors, and administration. This is where instructional Canva resources and support materials will live.',

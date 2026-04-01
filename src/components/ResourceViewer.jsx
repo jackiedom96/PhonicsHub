@@ -86,7 +86,7 @@ function EmbeddedContent({ resource }) {
   )
 }
 
-export function ResourceViewer({ compact = false, onSelect, resource }) {
+export function ResourceViewer({ accent = 'teal', compact = false, onSelect, resource }) {
   const { updateResourceField } = useAppContent()
 
   if (!resource) {
@@ -136,7 +136,7 @@ export function ResourceViewer({ compact = false, onSelect, resource }) {
 
         {resource.resolvedUrl ? (
           <a
-            className="link-button"
+            className={`link-button link-button--${accent}`}
             href={resource.resolvedUrl}
             rel="noreferrer"
             target="_blank"

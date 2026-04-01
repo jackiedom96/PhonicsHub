@@ -417,6 +417,18 @@ function getStakeholderToneClass(portalId, sectionId) {
   return ''
 }
 
+function getPillToneClass(accent) {
+  if (accent === 'orange') {
+    return 'pill--accent'
+  }
+
+  if (accent === 'green') {
+    return 'pill--green'
+  }
+
+  return 'pill--teal'
+}
+
 function SectionSurface({
   portal,
   activeSection,
@@ -746,7 +758,7 @@ export function PortalPage({ portalId }) {
           <div className="viewer-pill-row">
             <InlineEditableText
               as="span"
-              className="pill pill--teal"
+              className={`pill ${getPillToneClass(portal.accent)}`}
               label={`${portalState.activeSection.label} section callout`}
               onChange={(value) =>
                 updateSectionField(portal.id, portalState.activeSection.id, 'callout', value)

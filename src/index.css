@@ -304,6 +304,11 @@ button {
   gap: 1.5rem;
 }
 
+.home-brand-rail,
+.home-hero__brand-corner {
+  display: none;
+}
+
 .home-hero__content,
 .home-hero__aside {
   display: grid;
@@ -315,6 +320,71 @@ button {
 .home-hero__aside {
   justify-items: end;
   align-self: start;
+}
+
+@media (min-width: 981px) {
+  .home-page {
+    gap: 1.8rem;
+  }
+
+  .home-hero__brand-corner {
+    position: absolute;
+    top: clamp(1.25rem, 2.2vw, 1.8rem);
+    left: clamp(1.25rem, 2.2vw, 1.8rem);
+    display: block;
+    z-index: 2;
+  }
+
+  .home-hero__brand-corner .logo-panel {
+    width: min(100%, 18.75rem);
+    transform: none !important;
+  }
+
+  .home-hero__brand-corner .logo-panel img {
+    width: min(100%, 16rem) !important;
+    transform: none !important;
+  }
+
+  .home-hero {
+    grid-template-columns: 1fr;
+    width: min(100%, 68rem);
+    margin-inline: auto;
+    justify-content: center;
+    gap: clamp(1.75rem, 3vw, 2.5rem);
+  }
+
+  .home-hero__content {
+    width: min(100%, 48rem);
+    justify-self: center;
+    justify-items: center;
+    gap: 1.15rem;
+  }
+
+  .home-hero__aside {
+    display: none;
+  }
+
+  .home-hero__intro-strip {
+    width: min(100%, 44rem);
+  }
+
+  .hero-actions,
+  .hero-pills {
+    justify-content: center;
+  }
+
+  .home-section-heading {
+    max-width: 48rem;
+    margin-inline: auto;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .stat-grid--home,
+  .role-grid {
+    width: min(100%, 68rem);
+    margin-inline: auto;
+  }
 }
 
 .home-hero__heading {
@@ -524,6 +594,21 @@ button {
 .link-button {
   color: var(--teal);
   background: rgba(45, 139, 139, 0.1);
+}
+
+.link-button--orange {
+  color: #8d4300;
+  background: rgba(245, 130, 32, 0.14);
+}
+
+.link-button--teal {
+  color: #14595a;
+  background: rgba(45, 139, 139, 0.1);
+}
+
+.link-button--green {
+  color: #476b16;
+  background: rgba(141, 198, 63, 0.14);
 }
 
 .hero-pills {
@@ -845,9 +930,9 @@ button {
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(circle at 12% 18%, rgba(186, 220, 245, 0.28), transparent 20%),
-    radial-gradient(circle at 86% 22%, rgba(77, 142, 204, 0.16), transparent 24%),
-    linear-gradient(180deg, rgba(246, 251, 255, 0.96), rgba(234, 244, 255, 0.9));
+    radial-gradient(circle at 12% 18%, rgba(187, 229, 229, 0.3), transparent 20%),
+    radial-gradient(circle at 86% 22%, rgba(45, 139, 139, 0.16), transparent 24%),
+    linear-gradient(180deg, rgba(245, 252, 252, 0.96), rgba(231, 246, 245, 0.9));
 }
 
 .portal-hero--instructional::before,
@@ -867,7 +952,7 @@ button {
   top: -1.5rem;
   right: -2rem;
   background-image:
-    url("data:image/svg+xml,%3Csvg width='420' height='220' viewBox='0 0 420 220' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28 143C81 93 137 88 178 118C219 148 262 153 319 99C345 74 366 58 392 50' stroke='%233F7CB5' stroke-width='12' stroke-linecap='round'/%3E%3Cpath d='M78 185C134 135 187 129 226 156C266 183 304 184 357 135' stroke='%2367A6DB' stroke-width='10' stroke-linecap='round'/%3E%3Cpath d='M142 47C177 28 209 30 234 50C258 69 286 74 325 52' stroke='%2395C4EA' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg width='420' height='220' viewBox='0 0 420 220' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28 143C81 93 137 88 178 118C219 148 262 153 319 99C345 74 366 58 392 50' stroke='%231B7D7E' stroke-width='12' stroke-linecap='round'/%3E%3Cpath d='M78 185C134 135 187 129 226 156C266 183 304 184 357 135' stroke='%232D8B8B' stroke-width='10' stroke-linecap='round'/%3E%3Cpath d='M142 47C177 28 209 30 234 50C258 69 286 74 325 52' stroke='%2367B3B3' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E");
   background-size: contain;
 }
 
@@ -878,7 +963,7 @@ button {
   left: -1.25rem;
   opacity: 0.45;
   background-image:
-    url("data:image/svg+xml,%3Csvg width='320' height='180' viewBox='0 0 320 180' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18 122C57 79 104 72 141 95C178 118 220 123 277 81' stroke='%233F7CB5' stroke-width='10' stroke-linecap='round'/%3E%3Cpath d='M40 154C84 118 126 113 158 131C189 149 225 151 269 118' stroke='%237EB6E6' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg width='320' height='180' viewBox='0 0 320 180' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18 122C57 79 104 72 141 95C178 118 220 123 277 81' stroke='%231B7D7E' stroke-width='10' stroke-linecap='round'/%3E%3Cpath d='M40 154C84 118 126 113 158 131C189 149 225 151 269 118' stroke='%234FAAAA' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E");
   background-size: contain;
 }
 
@@ -887,9 +972,9 @@ button {
   overflow: hidden;
   padding: var(--space-24);
   background:
-    radial-gradient(circle at 12% 18%, rgba(186, 220, 245, 0.2), transparent 20%),
-    radial-gradient(circle at 86% 22%, rgba(77, 142, 204, 0.12), transparent 24%),
-    linear-gradient(180deg, rgba(246, 251, 255, 0.96), rgba(236, 245, 255, 0.9));
+    radial-gradient(circle at 12% 18%, rgba(255, 220, 190, 0.24), transparent 20%),
+    radial-gradient(circle at 86% 22%, rgba(245, 130, 32, 0.14), transparent 24%),
+    linear-gradient(180deg, rgba(255, 249, 241, 0.96), rgba(255, 242, 226, 0.9));
 }
 
 .portal-hero--evaluation::before,
@@ -909,7 +994,7 @@ button {
   top: -1.5rem;
   right: -2rem;
   background-image:
-    url("data:image/svg+xml,%3Csvg width='420' height='220' viewBox='0 0 420 220' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28 143C81 93 137 88 178 118C219 148 262 153 319 99C345 74 366 58 392 50' stroke='%233F7CB5' stroke-width='12' stroke-linecap='round'/%3E%3Cpath d='M78 185C134 135 187 129 226 156C266 183 304 184 357 135' stroke='%2367A6DB' stroke-width='10' stroke-linecap='round'/%3E%3Cpath d='M142 47C177 28 209 30 234 50C258 69 286 74 325 52' stroke='%2395C4EA' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg width='420' height='220' viewBox='0 0 420 220' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28 143C81 93 137 88 178 118C219 148 262 153 319 99C345 74 366 58 392 50' stroke='%23D86D10' stroke-width='12' stroke-linecap='round'/%3E%3Cpath d='M78 185C134 135 187 129 226 156C266 183 304 184 357 135' stroke='%23F58220' stroke-width='10' stroke-linecap='round'/%3E%3Cpath d='M142 47C177 28 209 30 234 50C258 69 286 74 325 52' stroke='%23F6AA63' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E");
   background-size: contain;
 }
 
@@ -920,7 +1005,7 @@ button {
   left: -1.25rem;
   opacity: 0.45;
   background-image:
-    url("data:image/svg+xml,%3Csvg width='320' height='180' viewBox='0 0 320 180' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18 122C57 79 104 72 141 95C178 118 220 123 277 81' stroke='%233F7CB5' stroke-width='10' stroke-linecap='round'/%3E%3Cpath d='M40 154C84 118 126 113 158 131C189 149 225 151 269 118' stroke='%237EB6E6' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E");
+    url("data:image/svg+xml,%3Csvg width='320' height='180' viewBox='0 0 320 180' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18 122C57 79 104 72 141 95C178 118 220 123 277 81' stroke='%23D86D10' stroke-width='10' stroke-linecap='round'/%3E%3Cpath d='M40 154C84 118 126 113 158 131C189 149 225 151 269 118' stroke='%23F6AA63' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E");
   background-size: contain;
 }
 
@@ -956,7 +1041,13 @@ button {
   height: var(--space-32);
   margin-top: var(--space-8);
   border-radius: var(--space-12);
-  background: rgba(27, 43, 72, 0.08);
+  color: #8d4300;
+  background: rgba(245, 130, 32, 0.14);
+}
+
+.portal-hero--instructional .portal-hero__icon {
+  color: #14595a;
+  background: rgba(45, 139, 139, 0.14);
 }
 
 .portal-hero__top {
